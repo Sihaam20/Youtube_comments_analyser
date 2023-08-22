@@ -245,24 +245,28 @@ def create_knowledge_graph(hashtag, positive_count, negative_count, neutral_coun
     plt.savefig(filename)
     print(f'Successfully saved the knowledge graph as {filename}.')
     plt.show()
-    
-
 def generate_pie_chart(comments, hashtag, positive_count, negative_count, question_count, neutral_count):
-    counts = [positive_count, negative_count, question_count, neutral_count]
+    # Define custom colors for each slice
+    colors = ['#ff9999', '#66b3ff', '#99ff99', '#c2c2f0']
+    
+    # Create a pie chart
+    plt.figure(figsize=(8, 8))
+    explode = (0.1, 0, 0, 0)
     labels = ['Positive', 'Negative', 'Question', 'Neutral']
-    colors = ['green', 'red', 'blue', 'gray']
-
-    plt.figure(figsize=(6, 6))
-    plt.pie(counts, labels=labels, colors=colors, autopct='%1.1f%%', startangle=140)
-    plt.title('Sentiment Distribution')
-    plt.axis('equal')
+    sizes = [positive_count, negative_count, question_count, neutral_count]
+    plt.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%', startangle=140, shadow=True, wedgeprops={'edgecolor': 'gray'})
+    plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    
+    # Set the title and save the figure
+    plt.title(f'Sentiment Distribution:{hashtag}')
 
     filename = f'{hashtag}_Pie_chart.png'
-    plt.axis('off')
     plt.tight_layout()
     plt.savefig(filename)
-    print(f'Successfully saved the pie chart as {filename}.')
+    print(f'Successfully saved the enhanced pie chart as {filename}.')
     plt.show()
+
+
 def generate_word_cloud(comments, hashtag):
     combined_comments = ' '.join(comments)
     wordcloud = WordCloud(width=800, height=400, background_color='white').generate(combined_comments)
